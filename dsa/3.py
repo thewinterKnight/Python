@@ -1,10 +1,32 @@
 # How do you find all pairs of an integer array whose sum is equal to a given number?
+# How do you remove duplicates from an array in place?
 
 import random
 
 def create_array(m, M):
 	arr = list(range(m, M+1))
 	random.shuffle(arr)
+	return arr
+
+
+def create_array_wt_duplicates(m, M, num_duplicates):
+	arr = list(range(m, M+1))
+
+	print(arr)
+
+	arr.extend(generate_random_list(m, M, num_duplicates))
+
+	random.shuffle(arr)
+	return arr
+
+
+def generate_random_list(m, M, num_elements):
+	arr = []
+	arr_len = len(arr)
+	while arr_len < num_elements:
+		arr.append(random.randint(m, M))
+		arr_len = len(arr)
+
 	return arr
 
 
@@ -47,6 +69,22 @@ def merge_sort(arr):
 	return sorted_arr
 
 
+def remove_duplicates_sorted_inplace(arr):
+	if len(arr) < 1:
+		return arr
+
+	j=0
+
+	for i in range(0, len(arr)-1):
+		if arr[i] != arr[i+1]:
+			arr[j] = arr[i]
+			j += 1
+
+	arr[j] = arr[len(arr)-1]
+
+	return arr[:j+1]
+
+
 def find_sum_pairs(arr, num):
 	sorted_arr = merge_sort(arr)
 
@@ -66,13 +104,15 @@ def find_sum_pairs(arr, num):
 
 
 if __name__ == "__main__":
-	arr = create_array(5,23)
+	# arr = create_array(5,23)
+	arr = create_array_wt_duplicates(0,7,3)
 	print(arr)
 
-	# sorted_arr = merge_sort(arr)
-	# print(sorted_arr)
+	sorted_arr = merge_sort(arr)
+	print('Sorted Array : ', sorted_arr)
 
-	sum_pairs = find_sum_pairs(arr, 35)
+	sum_pairs = find_sum_pairs(arr, 12)
+	print('Sum pairs : ', sum_pairs)
 
-	print(sum_pairs)
-
+	sifted_arr = remove_duplicates_sorted_inplace(sorted_arr)
+	print('Sifted Array : ', sifted_arr)
