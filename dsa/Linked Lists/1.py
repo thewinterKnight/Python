@@ -18,29 +18,33 @@ class Node(object):
 
 
 class LinkedList(Node):
-	head = None
 
-	def __init__(self, data=None, next=None):
-		self.head = Node(data, next)
+	def __init__(self, head=None):
+		self.head = head
 
 	def insert_node(self, data):
-		new_node = Node(data)
-		node = self.head
-		while node.next != None:
-			node = node.next
-
-		node.set_next(new_node)
+		if self.head is None:
+			self.head = Node(data)
+		else:
+			new_node = Node(data)
+			ptr = self.head
+			while ptr.get_next() is not None:
+				ptr = ptr.get_next()
+			ptr.set_next(new_node)
 
 	def print_linked_list(self):
-		node = self.head
-		while node != None:
-			print(node.data)
-			node = node.next		
+		if self.head is None:
+			print("Nothing to print\n")
+			return
+		ptr = self.head
+		while ptr is not None:
+			print(ptr.get_data())
+			ptr = ptr.get_next()
 
 
 def fetch_mid(head):
-	slow_ptr = head
-	fast_ptr = head
+	slow_ptr = head.get_next()
+	fast_ptr = head.get_next()
 
 	while fast_ptr.get_next() and fast_ptr.get_next().get_next() is not None:
 		fast_ptr = fast_ptr.get_next().get_next()
@@ -50,7 +54,7 @@ def fetch_mid(head):
 
 
 if __name__ == "__main__":
-	linked_list = LinkedList(1)
+	linked_list = LinkedList()
 
 	linked_list.insert_node(5)
 	linked_list.insert_node(10)
@@ -61,11 +65,6 @@ if __name__ == "__main__":
 	linked_list.insert_node(35)
 	linked_list.insert_node(40)
 	linked_list.insert_node(45)
-	linked_list.insert_node(50)
-	linked_list.insert_node(55)
-	linked_list.insert_node(60)
-	linked_list.insert_node(70)
-	linked_list.insert_node(80)
 
 	linked_list.print_linked_list()
 

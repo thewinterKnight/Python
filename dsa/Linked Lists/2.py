@@ -30,27 +30,33 @@ class Node:
 
 
 class LinkedList(Node):
-	head = None
 
-	def __init__(self, data=None, next=None):
-		self.head = Node(data, next)
+	def __init__(self, head=None):
+		self.head = head
 
 	def insert_node(self, data):
-		new_node = Node(data)
-
-		ptr = self.head
-		while ptr.get_next() is not None:
-			ptr = ptr.get_next()
-		ptr.set_next(new_node)
+		if self.head is None:
+			self.head = Node(data)
+		else:
+			new_node = Node(data)
+			ptr = self.head
+			while ptr.get_next() is not None:
+				ptr = ptr.get_next()
+			ptr.set_next(new_node)
 
 	def print_linked_list(self):
+		if self.head is None:
+			print("Nothing to print\n")
+			return
 		ptr = self.head
 		while ptr is not None:
 			print(ptr.get_data())
 			ptr = ptr.get_next()
-		print('\n')
 
 	def get_last_node(self):
+		if self.head is None:
+			print("Linked list does not exist\n")
+			return
 		ptr = self.head
 		while ptr.get_next() is not None:
 			ptr = ptr.get_next()
@@ -58,8 +64,8 @@ class LinkedList(Node):
 
 
 def detect_loop(head):
-	fast_ptr = head
-	slow_ptr = head
+	fast_ptr = head.get_next()
+	slow_ptr = head.get_next()
 
 	while fast_ptr.get_next() and fast_ptr.get_next().get_next() is not None:
 		fast_ptr = fast_ptr.get_next().get_next()
@@ -74,7 +80,7 @@ def detect_loop(head):
 
 
 def find_loop_node(head, fast_ptr):
-	slow_ptr = head
+	slow_ptr = head.get_next()
 
 	while slow_ptr is not fast_ptr:
 		slow_ptr = slow_ptr.get_next()
@@ -90,7 +96,7 @@ def set_loop(linklist, loop_node_index):
 
 
 if __name__ is "__main__":
-	linked_list = LinkedList(1)
+	linked_list = LinkedList()
 
 	linked_list.insert_node(5)
 	linked_list.insert_node(10)
