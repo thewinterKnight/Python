@@ -1,4 +1,4 @@
-# How is a complete binary search tree implemented?
+# How do you perform preorder traversal in a binary tree?
 
 import random
 
@@ -15,29 +15,25 @@ class QueueNode:
 	def get_next(self):
 		return self.next
 
-	def set_next(self, new_node):
-		self.next = new_node
+	def set_next(self, new_queue_node):
+		self.next = new_queue_node
 
 
 class Queue(QueueNode):
 
 	def __init__(self, head=None, tail=None):
-		# super().__init__()
 		self.head = head
 		self.tail = tail
 
 	def Enqueue(self, tree_node):
-		new_node = QueueNode(tree_node)
+		queue_node = QueueNode(tree_node)
 
-		if self.tail is None and self.head is None:
-			self.head = new_node
-			self.tail = new_node
+		if self.head is None and self.tail is None:
+			self.tail = queue_node
+			self.head = queue_node
 		else:
-			self.tail.set_next(new_node)
+			self.tail.set_next(queue_node)
 			self.tail = self.tail.get_next()
-
-	def get_front(self):
-		return self.head
 
 	def Dequeue(self):
 		if self.head is None:
@@ -49,6 +45,9 @@ class Queue(QueueNode):
 			self.tail = None
 
 		return pop_node.get_tree_node()
+
+	def get_front(self):
+		return self.head.get_tree_node()
 
 	def is_empty(self):
 		if self.head is None and self.tail is None:
@@ -83,7 +82,6 @@ class TreeNode:
 class BinaryTree(TreeNode):
 
 	def __init__(self, root=None):
-		# super().__init__()
 		self.root = root
 
 	def level_order_traversal(self):
@@ -96,32 +94,45 @@ class BinaryTree(TreeNode):
 
 		while traversal_queue.is_empty() is False:
 			tree_node = traversal_queue.Dequeue()
+
 			print(tree_node.get_data())
 
 			if tree_node.get_left() is not None:
 				traversal_queue.Enqueue(tree_node.get_left())
 			if tree_node.get_right() is not None:
 				traversal_queue.Enqueue(tree_node.get_right())
+				
+	def preorder_traversal(self):
+		if self.root is None:
+			print("Tree does not exist\n")
+			return
+		self.preorder_util(self.root)
+
+	def preorder_util(self, root):
+		if root is None:
+			return
+		self.preorder_util(root.get_left())
+		print(root.get_data())
+		self.preorder_util(root.get_right())
 
 
-def insert_node(binary_tree, data, queue):
-	new_node = TreeNode(data)
+def insert_node(binary_tree, data, insertion_queue):
+	new_tree_node = TreeNode(data)
 
 	if binary_tree.root is None:
-		binary_tree.root = new_node
+		binary_tree.root = new_tree_node
 	else:
-		queue_front = queue.get_front()		# queue_front is a tree node that was put in the queue
-		tree_node = queue_front.get_tree_node()
+		front = insertion_queue.get_front()
 
-		if tree_node.get_left() is None:
-			tree_node.set_left(new_node)
-		elif tree_node.get_right() is None:
-			tree_node.set_right(new_node)
+		if front.get_left() is None:
+			front.set_left(new_tree_node)
+		elif front.get_right() is None:
+			front.set_right(new_tree_node)
 
-		if tree_node.get_left() is not None and tree_node.get_right() is not None:
-			queue.Dequeue()
+		if front.get_left() is not None and front.get_right() is not None:
+			insertion_queue.Dequeue()
 
-	queue.Enqueue(new_node)
+	insertion_queue.Enqueue(new_tree_node)
 
 
 if __name__ == "__main__":
@@ -137,9 +148,9 @@ if __name__ == "__main__":
 
 	for i in arr:
 		insert_node(binary_tree, i, queue)
+
+	print("Level Order Traversal : \n")
 	binary_tree.level_order_traversal()
 
-
-
-
-
+	print("PreOrder Traversal : \n")
+	binary_tree.preorder_traversal()
