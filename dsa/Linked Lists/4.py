@@ -83,5 +83,5 @@ if __name__ is "__main__":
 
     reverse_linked_list.print_linked_list()
 
-# print('\n\n')
-# linked_list.print_linked_list()
+print('\n\nOriginal linked list(after reversed list is generated...) :\n')
+linked_list.print_linked_list()
