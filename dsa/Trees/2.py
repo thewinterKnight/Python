@@ -15,8 +15,8 @@ class LinkedListNode:
 	def get_next(self):
 		return self.next
 
-	def set_next(self, new_queue_node):
-		self.next = new_queue_node
+	def set_next(self, new_tree_node):
+		self.next = new_tree_node
 
 
 class Queue(LinkedListNode):
