@@ -169,16 +169,34 @@ class BinaryTree(TreeNode):
 		print(node.get_data())
 		self.inorder_recursive_util(node.get_right())
 
-	# def inorder_traversal_iterative(self):
-	# 	if self.root is None:
-	# 		print("Tree non-existent.\n")
-	# 		return
+	def inorder_traversal_iterative(self):
+		if self.root is None:
+			print("Tree non-existent.\n")
+			return
 
-	# 	traversal_stack = Stack()
-	# 	traversal_stack.Push(self.root)
+		traversal_stack = Stack()
+		traversal_stack.Push(self.root)
 
-	# 	while traversal_stack.is_empty() is False:
-	# 		tree_node = traversal_stack.Pop()
+		traversal_node = self.root
+		while traversal_stack.is_empty() is False:
+			if traversal_node.get_left() is not None:
+				traversal_stack.Push(traversal_node)
+				traversal_node = traversal_node.get_left()
+				continue
+
+			print(traversal_node.get_data())
+
+			if traversal_node.get_right() is not None:
+				print(traversal_node.get_data())
+				traversal_node = traversal_node.get_right()
+				traversal_stack.Push(traversal_node)
+			
+			if traversal_node.get_left() is None:
+				traversal_node = traversal_stack.Pop()
+
+		
+
+		
 
 			
 
