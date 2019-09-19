@@ -177,22 +177,22 @@ class BinaryTree(TreeNode):
 		traversal_stack = Stack()
 		traversal_stack.Push(self.root)
 
-		traversal_node = self.root
 		while traversal_stack.is_empty() is False:
+			traversal_node = traversal_stack.get_top()
+
 			if traversal_node.get_left() is not None:
-				traversal_stack.Push(traversal_node)
 				traversal_node = traversal_node.get_left()
+				traversal_stack.Push(traversal_node)
 				continue
 
 			print(traversal_node.get_data())
 
-			if traversal_node.get_right() is not None:
-				print(traversal_node.get_data())
+			if traversal_node.get_right() is None:
+				traversal_stack.Pop()
+			else:
 				traversal_node = traversal_node.get_right()
 				traversal_stack.Push(traversal_node)
 			
-			if traversal_node.get_left() is None:
-				traversal_node = traversal_stack.Pop()
 
 		
 
