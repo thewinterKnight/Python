@@ -175,31 +175,18 @@ class BinaryTree(TreeNode):
 			return
 
 		traversal_stack = Stack()
-		traversal_stack.Push(self.root)
+		traversal_node = self.root
+		while traversal_node is not None or traversal_stack.is_empty() is False:
 
-		while traversal_stack.is_empty() is False:
-			traversal_node = traversal_stack.get_top()
-
-			if traversal_node.get_left() is not None:
-				traversal_node = traversal_node.get_left()
+			while traversal_node is not None:
 				traversal_stack.Push(traversal_node)
-				continue
+				traversal_node = traversal_node.get_left()
+
+			traversal_node = traversal_stack.Pop()
 
 			print(traversal_node.get_data())
 
-			if traversal_node.get_right() is None:
-				traversal_stack.Pop()
-			else:
-				traversal_node = traversal_node.get_right()
-				traversal_stack.Push(traversal_node)
-			
-
-		
-
-		
-
-			
-
+			traversal_node = traversal_node.get_right()
 
 	def preorder_traversal_recursive(self):
 		if self.root is None:
@@ -215,6 +202,22 @@ class BinaryTree(TreeNode):
 		print(node.get_data())
 		self.preorder_recursive_util(node.get_left())
 		self.preorder_recursive_util(node.get_right())
+
+	def preorder_traversal_iterative(self):
+		if self.root is None:
+			print("Tree non-existent.\n")
+			return
+
+		traversal_stack = Stack()
+		traversal_stack.Push(self.root)
+		while traversal_stack.is_empty() is False:
+			traversal_node = traversal_stack.Pop()
+
+			print(traversal_node.get_data())
+			if traversal_node.get_right() is not None:
+				traversal_stack.Push(traversal_node.get_right())
+			if traversal_node.get_left() is not None:
+				traversal_stack.Push(traversal_node.get_left())
 
 	def postorder_traversal_recursive(self):
 		if self.root is None:
@@ -236,7 +239,7 @@ if __name__ == "__main__":
 	binary_tree = BinaryTree()
 
 	arr = list(range(1, 12))
-	random.shuffle(arr)
+	# random.shuffle(arr)
 
 	print(arr)
 
@@ -251,8 +254,14 @@ if __name__ == "__main__":
 	print("\n\nInOrder Traversal(Recursive) :")
 	binary_tree.inorder_traversal_recursive()
 
+	print("\n\nInOrder Traversal(Iterative) :")
+	binary_tree.inorder_traversal_iterative()
+
 	print("\n\nPreOrder Traversal(Recursive) :")
 	binary_tree.preorder_traversal_recursive()
+
+	print("\n\nPreOrder Traversal(Iterative) :")
+	binary_tree.preorder_traversal_iterative()
 
 	print("\n\nPostOrder Traversal(Recursive) :")
 	binary_tree.postorder_traversal_recursive()

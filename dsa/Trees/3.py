@@ -163,9 +163,9 @@ class BinaryTree(TreeNode):
 		while traversal_stack.is_empty() is False:
 			tree_node = traversal_stack.Pop()
 
+			print(tree_node.get_data())
 			if tree_node.get_right() is not None:
 				traversal_stack.Push(tree_node.get_right())
-			print(tree_node.get_data())
 			if tree_node.get_left() is not None:
 				traversal_stack.Push(tree_node.get_left())
 
