@@ -273,22 +273,38 @@ class BinaryTree(TreeNode):
                 if predecessor_node is not None:
                     print('Inorder predecessor : {}'.format(predecessor_node.get_data()))
                 else:
-                    print('Inorder predecessor does not exist.\n')
+                    print('Inorder predecessor does not exist.')
                 break
             else:
                 predecessor_node = traversal_node
 
             traversal_node = traversal_node.get_right()
 
-    def inorder_predecessor_util(self, node):
-        if node.get_left() is None:
-            return None
+    def inorder_successor(self, node_data):
+        if self.root is None:
+            print("Tree non-existent.\n")
+            return
 
-        traversal_node = node.get_left()
-        while traversal_node.get_right() is not None:
+        traversal_stack = Stack()
+        traversal_node = self.root
+        successor_flag = False
+        while traversal_stack.is_empty() is False or traversal_node is not None:
+            while traversal_node is not None:
+                traversal_stack.Push(traversal_node)
+                traversal_node = traversal_node.get_left()
+
+            traversal_node = traversal_stack.Pop()
+            if successor_flag is True:
+                if traversal_node is not None:
+                    print('Inorder successor : {}'.format(traversal_node.get_data()))
+                    successor_flag = False
+                break
+            elif traversal_node.get_data() == node_data:
+                successor_flag = True
+
             traversal_node = traversal_node.get_right()
-
-        return traversal_node.get_data()
+        if successor_flag is True:
+            print('Inorder successor does not exist.\n')
 
     def get_parent(self, node):
         if self.root is None:
@@ -375,5 +391,6 @@ if __name__ == "__main__":
 
     node_data = 0
     while node_data != -1:
-        node_data = int(input("\n\nFind Inorder Predecessor for : "))
+        node_data = int(input("\n\nFind Inorder Predecessor & Successor for : "))
         binary_tree.inorder_predecessor(node_data)
+        binary_tree.inorder_successor(node_data)
