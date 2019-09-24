@@ -13,7 +13,7 @@ class LinkedListNode:
 		return self.next
 
 	def set_next(self, new_tree_node):
-		self.tree_node = new_tree_node
+		self.next = new_tree_node
 
 
 class Queue(LinkedListNode):
@@ -126,10 +126,10 @@ class BinaryTree(TreeNode):
 			elif front.get_right() is None:
 				front.set_right(tree_node)
 
-			if front.get_left() is not None and front.right() is not None:
-				insertion_queue.Dequeue()
+			if front.get_left() is not None and front.get_right() is not None:
+				self.insertion_queue.Dequeue()
 
-		insertion_queue.Enqueue(tree_node)
+		self.insertion_queue.Enqueue(tree_node)
 
 	def level_order_traversal(self):
 		if self.root is None:
@@ -149,4 +149,152 @@ class BinaryTree(TreeNode):
 			if tree_node.get_right() is not None:
 				traversal_queue.Enqueue(tree_node.get_right())
 
-	def preorder_traversal_recursive(self)
+	def depth_traversals_recursive(self, type='inorder'):
+		if self.root is None:
+			print("Tree non-existent.\n")
+			return
+
+		switcher = {
+			'preorder' : 1,
+			'inorder' : 2,
+			'postorder' : 3
+		}
+
+		self.depth_recursive_util(self.root, switcher.get(type))
+
+	def depth_recursive_util(self, node, traversal_indx):
+		if node is None:
+			return
+
+		left_flag = False
+		for i in range(1,4):
+			if i == traversal_indx:
+				print(node.get_data())
+				continue
+			else:
+				if left_flag is False:
+					self.depth_recursive_util(node.get_left(), traversal_indx)
+					left_flag = True
+				else:
+					self.depth_recursive_util(node.get_right(), traversal_indx)
+
+	def preorder_traversal_iterative(self):
+		if self.root is None:
+			print("Tree non-existent.\n")
+			return
+
+		traversal_stack = Stack()
+		traversal_stack.Push(self.root)
+		while traversal_stack.is_empty() is False:
+			tree_node = traversal_stack.Pop()
+
+			print(tree_node.get_data())
+			if tree_node.get_right() is not None:
+				traversal_stack.Push(tree_node.get_right())
+			if tree_node.get_left() is not None:
+				traversal_stack.Push(tree_node.get_left())
+
+	def inorder_traversal_iterative(self):
+		if self.root is None:
+			print("Tree non-existent.\n")
+			return
+
+		traversal_stack = Stack()
+		traversal_node = self.root
+		while traversal_node is not None or traversal_stack.is_empty() is False:
+			while traversal_node is not None:
+				traversal_stack.Push(traversal_node)
+				traversal_node = traversal_node.get_left()
+
+			traversal_node = traversal_stack.Pop()
+			print(traversal_node.get_data())
+			traversal_node = traversal_node.get_right()
+
+		
+	def inorder_predecessor(self, node_data):
+		if self.root is None:
+			print("Tree non-existent.\n")
+			return
+
+		traversal_stack = Stack()
+		traversal_node = self.root
+		while traversal_stack.is_empty() is False or traversal_node is not None:
+			while traversal_node is not None:
+				traversal_stack.Push(traversal_node)
+				traversal_node = traversal_node.get_left()
+
+			traversal_node = traversal_stack.Pop()
+
+			if traversal_node.get_data() == node_data:
+				predecessor = self.inorder_predecessor_util(traversal_node)
+				if predecessor is None:
+					predecessor = self.get_parent(traversal_node).get_data()
+				print('Inorder predecessor : {}'.format(predecessor))
+				break
+
+			traversal_node = traversal_node.get_right()
+
+	def inorder_predecessor_util(self, node):
+		if node.get_left() is None:
+			return None
+
+		traversal_node = node.get_left()
+		while traversal_node.get_right() is not None:
+			traversal_node = traversal_node.get_right()
+
+		return traversal_node.get_data()
+
+	def get_parent(self, node):
+		if self.root is None:
+			print("Tree non-existent.\n")
+			return
+
+		traversal_stack = Stack()
+		traversal_node = self.root
+		while traversal_stack.is_empty() is False or traversal_node is not None:
+			while traversal_node is not None:
+				traversal_stack.Push(traversal_node)
+				traversal_node = traversal_node.get_left()
+
+			traversal_node = traversal_stack.Pop()
+
+			if traversal_node.get_left() is node or traversal_node.get_right() is node:
+				return traversal_node
+
+			traversal_node = traversal_node.get_right()
+
+
+
+if __name__ == "__main__":
+	binary_tree = BinaryTree()
+
+	arr = list(range(1, 12))
+	# random.shuffle(arr)
+
+	print(arr)
+
+	print("Converting to a complete binary tree...\n\n")
+
+	for i in arr:
+		binary_tree.insert_node(i)
+
+	print("Level Order Traversal :")
+	binary_tree.level_order_traversal()
+
+	print("\n\nInOrder Traversal(Recursive) :")
+	binary_tree.depth_traversals_recursive('inorder')
+
+	print("\n\nInOrder Traversal(Iterative) :")
+	binary_tree.inorder_traversal_iterative()
+
+	print("\n\nPreOrder Traversal(Recursive) :")
+	binary_tree.depth_traversals_recursive('preorder')
+
+	print("\n\nPreOrder Traversal(Iterative) :")
+	binary_tree.preorder_traversal_iterative()
+
+	print("\n\nPostOrder Traversal(Recursive) :")
+	binary_tree.depth_traversals_recursive('postorder')
+
+	node_data = input("\n\nFind Inorder Predecessor for : ")
+	binary_tree.inorder_predecessor(node_data)
