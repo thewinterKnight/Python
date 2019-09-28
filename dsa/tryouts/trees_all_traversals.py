@@ -253,7 +253,7 @@ class BinaryTree(TreeNode):
                     left_flag = True
                 else:
                     self.depth_recursive_util(node.get_right(), traversal_indx)
-	
+
     def inorder_predecessor(self, node_data):
         if self.root is None:
             print("Tree non-existent.\n")
@@ -305,6 +305,27 @@ class BinaryTree(TreeNode):
             traversal_node = traversal_node.get_right()
         if successor_flag is True:
             print('Inorder successor does not exist.\n')
+
+###############################################################
+    def inorder_predecessor_recursive(self, node_data):
+        if self.root is None:
+            print("Tree non-existent.\n")
+            return
+
+        is_predecessor_node = self.inorder_predecessor_recursive_util(self.root, node_data, None)           
+
+    def inorder_predecessor_recursive_util(self, node, node_data, predecessor_node):
+        if node is None:
+            return
+
+        is_predecessor_node = self.inorder_predecessor_recursive_util(node.get_left(), node_data, predecessor_node)
+        if is_predecessor_node is True:
+            print('Inorder predecessor : {}'.format(node.get_data()))
+        elif node.get_data() == node_data:
+            return True
+        is_predecessor_node = self.inorder_predecessor_recursive_util(node.get_right(), node_data, predecessor_node)
+###############################################################
+
 
     def get_parent(self, node):
         if self.root is None:
@@ -366,7 +387,7 @@ if __name__ == "__main__":
 
     # binary_tree = BinaryTree()
     # for i in arr:
-    # 	binary_tree.insert_node(i)
+    #     binary_tree.insert_node(i)
 
     binary_tree = construct_incomplete_tree()
 
@@ -392,5 +413,6 @@ if __name__ == "__main__":
     node_data = 0
     while node_data != -1:
         node_data = int(input("\n\nFind Inorder Predecessor & Successor for : "))
+        # binary_tree.inorder_predecessor_recursive(node_data)
         binary_tree.inorder_predecessor(node_data)
         binary_tree.inorder_successor(node_data)
