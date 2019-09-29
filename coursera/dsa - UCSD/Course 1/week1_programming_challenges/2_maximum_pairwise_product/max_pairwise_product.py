@@ -25,7 +25,6 @@ def max_pairwise_prd_fast(numbers):
 
     return 0;
 
-
 def max_pairwise_product(numbers):
     n = len(numbers)
     max_product = 0
