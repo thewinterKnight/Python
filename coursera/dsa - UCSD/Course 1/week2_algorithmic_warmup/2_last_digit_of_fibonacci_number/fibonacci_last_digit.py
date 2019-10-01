@@ -1,6 +1,23 @@
 # Uses python3
 import sys
 
+def get_fibonacci_last_digit_dp(n):
+    if n <= 1:
+        return n
+
+    Fbn = []
+    Fbn.append(0)
+    Fbn.append(1)
+    i = 2
+    while Fbn[-1] is None or Fbn[-1] < n:
+        if Fbn[i-1] + Fbn[i-2] > n:
+            break
+        Fbn.append(Fbn[i-1] + Fbn[i-2])
+        i += 1
+
+    print(Fbn[-1])
+
+
 
 def get_fibonacci_last_digit_opt(n):
     if n <= 1:
@@ -34,6 +51,7 @@ def get_fibonacci_last_digit_naive(n):
 if __name__ == '__main__':
     # input = sys.stdin.read()
     n = int(input())
-    # print(get_fibonacci_last_digit_naive(n))
 
+    # print(get_fibonacci_last_digit_naive(n))
     get_fibonacci_last_digit_opt(n)
+    get_fibonacci_last_digit_dp(n)

@@ -1,9 +1,12 @@
 # Uses python3
 import sys
-import math
+
 
 def gcd_fast(a, b):
-    
+    if b == 0:
+        return a
+
+    return gcd_fast(b, a % b)
 
 
 def gcd_naive(a, b):
@@ -15,12 +18,13 @@ def gcd_naive(a, b):
 
     return current_gcd
 
+
 if __name__ == "__main__":
     # input = sys.stdin.read()
     # a, b = map(int, input.split())
 
-    a = input()
-    b = input()
+    a = int(input())
+    b = int(input())
 
     print(gcd_naive(a, b))
     print(gcd_fast(a, b))
