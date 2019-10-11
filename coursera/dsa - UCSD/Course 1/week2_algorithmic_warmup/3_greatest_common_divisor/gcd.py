@@ -1,6 +1,13 @@
 # Uses python3
 import sys
 
+def gcd_fast(a, b):
+	if b == 0:
+		return a
+
+	return gcd_fast(b, a % b)
+
+
 def gcd_naive(a, b):
     current_gcd = 1
     for d in range(2, min(a, b) + 1):
@@ -11,6 +18,11 @@ def gcd_naive(a, b):
     return current_gcd
 
 if __name__ == "__main__":
-    input = sys.stdin.read()
-    a, b = map(int, input.split())
-    print(gcd_naive(a, b))
+    # input = sys.stdin.read()
+    # a, b = map(int, input.split())
+    # print(gcd_naive(a, b))
+
+    a = int(input())
+    b = int(input())
+
+    print(gcd_fast(a, b))

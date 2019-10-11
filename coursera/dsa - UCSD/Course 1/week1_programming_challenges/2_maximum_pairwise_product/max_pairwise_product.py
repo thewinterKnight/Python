@@ -39,9 +39,9 @@ def max_pairwise_product(numbers):
 def stress_test():
     import random
 
-    num_tests = 500
-    min_arr_len = 500
-    max_arr_len = 1000
+    num_tests = 100
+    min_arr_len = 10
+    max_arr_len = 50
     min_num = 10
     max_num = 20000000
     for t in range(0, num_tests):
