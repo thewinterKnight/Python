@@ -3,7 +3,7 @@ def get_start_index(sum_map, curr_sum):
 	new_start_indx = 0
 	new_max_sum = curr_sum
 	for k, v in sum_map.items():
-		if curr_sum - v > curr_sum:
+		if curr_sum - v > new_max_sum:
 			new_start_indx = k + 1
 			new_max_sum = curr_sum - v
 
