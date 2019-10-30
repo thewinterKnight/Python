@@ -51,24 +51,28 @@ class Stack(LinkedListNode):
 
 
 def compute_stock_span(arr):
-	stock_stack = Stack((arr[0], 1))
+	stock_stack = Stack(0)
 	stock_spans = [1]
 
-	for item in arr[1:]:
-		span_count = 1
-		while stock_stack.is_empty() is False and stock_stack.get_front()[0] <= item:
-			stock_span_count = stock_stack.pop()[1]
-			stock_spans.append(stock_span_count)
-			span_count += stock_span_count
-		stock_stack.push((item, span_count))
+	for subindex, price in enumerate(arr[1:]):
+		index = subindex + 1
 
-	while stock_stack.is_empty() is False:
-		stock_spans.append(stock_stack.pop()[1])
+		while stock_stack.is_empty() is False and arr[stock_stack.get_front()] <= price:
+			stock_stack.pop()
+
+		if stock_stack.is_empty() is True:
+			stock_spans.append(index + 1)
+		else:
+			stock_spans.append(index - stock_stack.get_front())
+
+		stock_stack.push(index)
 
 	return stock_spans
 
+
 def main():
 	stock_prices = [100, 80, 60, 70, 60, 75, 85]
+	# stock_prices = [10, 4, 5, 90, 120, 80]
 	print(compute_stock_span(stock_prices))
 
 
