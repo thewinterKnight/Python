@@ -33,7 +33,7 @@ def find_optimal_alignent(D, A, B):
 			return
 
 		if j > 0 and D[i][j] == D[i][j-1] + 1:		# insertion
-			print('INSERT {}'.format(B[j - 1]))
+			print('INSERT {}'.format(B[j-1]))
 			j = j - 1
 		elif i > 0 and D[i][j] == D[i-1][j] + 1:	# deletion
 			print('DELETE {}\n'.format(A[i-1]))
@@ -41,8 +41,8 @@ def find_optimal_alignent(D, A, B):
 		elif i > 0 and j > 0:
 			if D[i][j] == D[i-1][j-1]:
 				print('MATCH {}-{}\n'.format(A[i-1], B[j-1]))
-			elif D[i][j] != D[i - 1][j - 1]:
-				print('MISMATCH {}-{}\n'.format(A[i - 1], B[j - 1]))
+			elif D[i][j] != D[i-1][j-1]:
+				print('MISMATCH {}-{}\n'.format(A[i-1], B[j-1]))
 			i = i - 1
 			j = j - 1
 
