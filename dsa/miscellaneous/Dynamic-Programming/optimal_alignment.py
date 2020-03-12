@@ -51,8 +51,8 @@ if __name__=='__main__':
 	A = 'EDITING'
 	B = 'DISTANCE'
 
-	# A = 'CAT'
-	# B = 'CUT'
+	A = 'CAT'
+	B = 'CUT'
 
 	D = compute_alignment_matrix(A, B)
 	find_optimal_alignent(D, A, B)
